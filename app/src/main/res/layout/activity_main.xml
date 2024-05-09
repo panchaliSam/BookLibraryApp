@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="8dp"
-    android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <TableLayout
+        android:id="@+id/tableLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,44 +31,131 @@
                 android:layout_column="1"
                 android:layout_marginStart="@dimen/_10dp"
                 android:text="@string/bookId"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/book_id"
                 android:layout_width="290dp"
-                android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20sp"
                 android:width="150dp"
                 android:autofillHints="B001"
                 android:hint="@string/bookIdHint"
+                android:textSize="20sp"
                 tools:ignore="LabelFor,TextFields" />
         </TableRow>
+
         <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginStart="@dimen/_10dp"
+                android:text="@string/bookName"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/book_name"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20sp"
+                android:width="150dp"
+                android:autofillHints="B001"
+                android:hint="@string/bookNameHint"
+                android:textSize="20sp"
+                tools:ignore="LabelFor,TextFields" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginStart="@dimen/_10dp"
+                android:text="@string/bookAuthor"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/book_author"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20sp"
+                android:width="150dp"
+                android:autofillHints="B001"
+                android:hint="@string/bookAuthorHint"
+                android:textSize="20sp"
+                tools:ignore="LabelFor,TextFields" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="350sp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout2">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="wrap_content"
+            android:layout_height="350sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="650dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.5">
 
-        <TextView
+        <Button
+            android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_marginStart="@dimen/_10dp"
-            android:text="@string/bookName"
-            android:textSize="15sp"/>
+            android:backgroundTint="@color/green"
+            android:text="@string/add"
+            tools:ignore="ButtonStyle" />
 
-        <EditText
-            android:id="@+id/book_name"
-            android:layout_width="290dp"
-            android:textSize="20sp"
+        <Button
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20sp"
-            android:width="150dp"
-            android:autofillHints="B001"
-            android:hint="@string/bookNameHint"
-            tools:ignore="LabelFor,TextFields" />
-    </TableRow>
-    </TableLayout>
+            android:backgroundTint="@color/blue"
+            android:text="@string/view"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/yellow"
+            android:text="@string/edit"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/red"
+            android:text="@string/delete"
+            tools:ignore="ButtonStyle" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

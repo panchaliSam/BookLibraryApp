@@ -6,4 +6,9 @@
     <string name="bookName">Book Name: </string>
     <string name="bookNameHint">Atomic Habits</string>
     <string name="bookAuthor">Book Author</string>
+    <string name="bookAuthorHint">James Clear</string>
+    <string name="add">Add</string>
+    <string name="view">View</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">BookLibraryApp</string>
-    <string name="addBtnDes">An Add Btn</string>
+    <string name="addBtnDes">Add Btn Des</string>
 </resources>

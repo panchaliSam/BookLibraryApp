@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">BookLibraryApp</string>
     <string name="addBtnDes">Add Btn Des</string>
+    <string name="bookId">Book Id: </string>
+    <string name="bookIdHint">B001</string>
+    <string name="bookName">Book Name: </string>
+    <string name="bookNameHint">Atomic Habits</string>
+    <string name="bookAuthor">Book Author</string>
 </resources>

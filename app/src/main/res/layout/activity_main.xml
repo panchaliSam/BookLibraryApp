@@ -4,4 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"/>
+    android:layout_marginBottom="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginStart="@dimen/_10dp"
+                android:text="@string/bookId"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:id="@+id/book_id"
+                android:layout_width="290dp"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20sp"
+                android:width="150dp"
+                android:autofillHints="B001"
+                android:hint="@string/bookIdHint"
+                tools:ignore="LabelFor,TextFields" />
+        </TableRow>
+        <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_marginStart="@dimen/_10dp"
+            android:text="@string/bookName"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/book_name"
+            android:layout_width="290dp"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:width="150dp"
+            android:autofillHints="B001"
+            android:hint="@string/bookNameHint"
+            tools:ignore="LabelFor,TextFields" />
+    </TableRow>
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Initialize EditText fields and ListView
-        bookIdEditText = findViewById(R.id.book_id)
+        //bookIdEditText = findViewById(R.id.book_id)
         bookNameEditText = findViewById(R.id.book_name)
         bookAuthorNameText = findViewById(R.id.book_author)
         listView = findViewById(R.id.listView)
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         val databaseHandler = DatabaseHandler(this)
 
         // Set click listeners for buttons
-        findViewById<Button>(R.id.add).setOnClickListener { saveRecord(it) }
+        findViewById<Button>(R.id.add).setOnClickListener { saveRecord() }
         findViewById<Button>(R.id.view).setOnClickListener { viewRecord(it) }
         findViewById<Button>(R.id.edit).setOnClickListener { updateRecord(it) }
         findViewById<Button>(R.id.delete).setOnClickListener { deleteRecord(it) }
@@ -40,9 +40,8 @@ class MainActivity : AppCompatActivity() {
 
 
     //method to save records in database
-    fun saveRecord(view: View){
+    private fun saveRecord() {
         //Retrieve input values from EditText fields
-        val id = bookIdEditText.text.toString()
         val bookName = bookNameEditText.text.toString()
         val authorName = bookAuthorNameText.text.toString()
 
@@ -50,24 +49,20 @@ class MainActivity : AppCompatActivity() {
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
 
         //Check if input fields are not empty
-        if(id.trim() != "" && bookName.trim() != "" && authorName.trim() != ""){
+        if (bookName.trim() != "" && authorName.trim() != "") {
             //call addBook method
-            val status = databaseHandler.addBook(BookModelClass(id,bookName,authorName))
+            val status = databaseHandler.addBook(BookModelClass("", bookName, authorName))
             //If record is added successfully, show a toast message
-            if(status > -1){
+            if (status > -1) {
                 Toast.makeText(applicationContext, "Record saved", Toast.LENGTH_LONG).show()
                 //Clear EditText fields
-                bookIdEditText.text.clear()
                 bookNameEditText.text.clear()
                 bookAuthorNameText.text.clear()
-            }else{
+            } else {
                 // If any field is empty, show an error message
-                Toast.makeText(applicationContext, "ID, name, or email cannot be blank", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Name or author cannot be blank", Toast.LENGTH_LONG).show()
             }
-
-
         }
-
     }
     // Method for reading records from the database and displaying in ListView
     fun viewRecord(view: View) {

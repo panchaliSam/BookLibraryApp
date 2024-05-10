@@ -77,10 +77,15 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         var success: Long = -1
         try {
             val contentValues = ContentValues().apply {
-                put(BOOK_ID, book.bookID)
                 put(BOOK_NAME, book.bookName)
                 put(BOOK_AUTHOR_NAME, book.bookAuthor)
             }
+
+            // Generate bookID
+            val lastBookId = getLastBookId(db)
+            val nextBookId = generateNextBookId(lastBookId)
+
+            contentValues.put(BOOK_ID, nextBookId)
             success = db.insert(TABLE_CONTACTS, null, contentValues)
         } catch (e: SQLiteException) {
             Log.e("DatabaseHandler", "SQLiteException: ${e.message}")
@@ -89,8 +94,29 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         }
         return success
     }
+    private fun getLastBookId(db: SQLiteDatabase): String {
+        val selectQuery = "SELECT $BOOK_ID FROM $TABLE_CONTACTS ORDER BY $BOOK_ID DESC LIMIT 1"
+        var lastBookId = "B000"
+        val cursor = db.rawQuery(selectQuery, null)
+        cursor.use {
+            if (it.moveToFirst()) {
+                val columnIndex = it.getColumnIndex(BOOK_ID)
+                if (columnIndex != -1) {
+                    lastBookId = it.getString(columnIndex)
+                } else {
+                    Log.e("DatabaseHandler", "Column $BOOK_ID not found in the result set.")
+                }
+            }
+        }
+        return lastBookId
+    }
 
-    // Other methods...
+
+    private fun generateNextBookId(lastBookId: String): String {
+        val numberPart = lastBookId.substring(1).toInt() + 1
+        return "B${String.format("%03d", numberPart)}"
+    }
+
 
     fun updateBooks(book: BookModelClass): Int {
         val db = this.writableDatabase

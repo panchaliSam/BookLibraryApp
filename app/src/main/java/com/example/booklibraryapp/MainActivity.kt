@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import android.content.DialogInterface
+import android.widget.Button
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 
@@ -16,14 +17,27 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bookNameEditText: EditText
     private lateinit var bookAuthorNameText:EditText
     private lateinit var listView: ListView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Initialize EditText fields and ListView
         bookIdEditText = findViewById(R.id.book_id)
         bookNameEditText = findViewById(R.id.book_name)
         bookAuthorNameText = findViewById(R.id.book_author)
+        listView = findViewById(R.id.listView)
+
+        // Create an instance of the DatabaseHandler class
+        val databaseHandler = DatabaseHandler(this)
+
+        // Set click listeners for buttons
+        findViewById<Button>(R.id.add).setOnClickListener { saveRecord(it) }
+        findViewById<Button>(R.id.view).setOnClickListener { viewRecord(it) }
+        findViewById<Button>(R.id.edit).setOnClickListener { updateRecord(it) }
+        findViewById<Button>(R.id.delete).setOnClickListener { deleteRecord(it) }
     }
+
 
     //method to save records in database
     fun saveRecord(view: View){

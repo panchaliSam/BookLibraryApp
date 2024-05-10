@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
+import android.util.Log
 
 class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -35,18 +36,6 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         }
     }
 
-    fun addBook(book: BookModelClass): Long {
-        val db = this.writableDatabase
-        val contentValues = ContentValues().apply {
-            put(BOOK_ID, book.bookID)
-            put(BOOK_NAME, book.bookName)
-            put(BOOK_AUTHOR_NAME, book.bookAuthor)
-        }
-        val success = db.insert(TABLE_CONTACTS, null, contentValues)
-        db.close()
-        return success
-    }
-
     fun viewBooks(): List<BookModelClass> {
         val bookList = mutableListOf<BookModelClass>()
         val selectQuery = "SELECT * FROM $TABLE_CONTACTS"
@@ -54,53 +43,82 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         var cursor: Cursor? = null
         try {
             cursor = db.rawQuery(selectQuery, null)
-            val bookIdIndex = cursor.getColumnIndex(BOOK_ID)
-            val bookNameIndex = cursor.getColumnIndex(BOOK_NAME)
-            val bookAuthorIndex = cursor.getColumnIndex(BOOK_AUTHOR_NAME)
+            if (cursor != null && cursor.moveToFirst()) {
+                val bookIdIndex = cursor.getColumnIndex(BOOK_ID)
+                val bookNameIndex = cursor.getColumnIndex(BOOK_NAME)
+                val bookAuthorIndex = cursor.getColumnIndex(BOOK_AUTHOR_NAME)
 
-            if (bookIdIndex >= 0 && bookNameIndex >= 0 && bookAuthorIndex >= 0) {
-                // The column indices are valid, proceed with retrieving data
-                if (cursor.moveToFirst()) {
-                    do {
+                do {
+                    // Check if column indices are valid
+                    if (bookIdIndex >= 0 && bookNameIndex >= 0 && bookAuthorIndex >= 0) {
                         val bookId = cursor.getString(bookIdIndex)
                         val bookName = cursor.getString(bookNameIndex)
                         val bookAuthor = cursor.getString(bookAuthorIndex)
                         val book = BookModelClass(bookId, bookName, bookAuthor)
                         bookList.add(book)
-                    } while (cursor.moveToNext())
-                }
-            } else {
-                // Handle the case where one or more column indices are invalid
-                // Log an error, throw an exception, or handle it based on your app's requirements
-                // For now, return an empty list
-                return emptyList()
+                    } else {
+                        // Handle the case where one or more column indices are invalid
+                        Log.e("DatabaseHandler", "One or more column indices are invalid")
+                    }
+                } while (cursor.moveToNext())
             }
-        } catch (e: SQLiteException) {
-            db.execSQL(selectQuery)
-            return emptyList()
+        } catch (e: Exception) {
+            e.printStackTrace()
         } finally {
-            cursor?.close() // Close the cursor regardless of whether it's null or not
-            db.close() // Close the database
+            cursor?.close()
+            db.close()
         }
         return bookList
     }
 
+
+    fun addBook(book: BookModelClass): Long {
+        val db = this.writableDatabase
+        var success: Long = -1
+        try {
+            val contentValues = ContentValues().apply {
+                put(BOOK_ID, book.bookID)
+                put(BOOK_NAME, book.bookName)
+                put(BOOK_AUTHOR_NAME, book.bookAuthor)
+            }
+            success = db.insert(TABLE_CONTACTS, null, contentValues)
+        } catch (e: SQLiteException) {
+            Log.e("DatabaseHandler", "SQLiteException: ${e.message}")
+        } finally {
+            db.close()
+        }
+        return success
+    }
+
+    // Other methods...
+
     fun updateBooks(book: BookModelClass): Int {
         val db = this.writableDatabase
-        val contentValues = ContentValues().apply {
-            put(BOOK_NAME, book.bookName)
-            put(BOOK_AUTHOR_NAME, book.bookAuthor)
+        var success = -1
+        try {
+            val contentValues = ContentValues().apply {
+                put(BOOK_NAME, book.bookName)
+                put(BOOK_AUTHOR_NAME, book.bookAuthor)
+            }
+            success = db.update(TABLE_CONTACTS, contentValues, "$BOOK_ID = ?", arrayOf(book.bookID))
+        } catch (e: SQLiteException) {
+            Log.e("DatabaseHandler", "SQLiteException: ${e.message}")
+        } finally {
+            db.close()
         }
-        val success = db.update(TABLE_CONTACTS, contentValues, "$BOOK_ID = ?", arrayOf(book.bookID.toString()))
-        db.close()
         return success
     }
 
     fun deleteBooks(book: BookModelClass): Int {
         val db = this.writableDatabase
-        val success = db.delete(TABLE_CONTACTS, "$BOOK_ID = ?", arrayOf(book.bookID.toString()))
-        db.close()
+        var success = -1
+        try {
+            success = db.delete(TABLE_CONTACTS, "$BOOK_ID = ?", arrayOf(book.bookID))
+        } catch (e: SQLiteException) {
+            Log.e("DatabaseHandler", "SQLiteException: ${e.message}")
+        } finally {
+            db.close()
+        }
         return success
     }
-
 }

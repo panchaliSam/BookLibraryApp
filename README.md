@@ -1,2 +1,2 @@
 # BookLibraryApp
-Book Library App Using Android
+Book Library App using Kotlin, SQlite.
